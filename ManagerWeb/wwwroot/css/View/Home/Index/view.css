@@ -1,0 +1,45 @@
+﻿section.auth {
+    margin: auto;
+}
+h2 {
+    color: #595959;
+    font-family: sans-serif;
+    text-align: center;
+}
+section.auth > form {
+    background-color: white;
+    padding: 25px;
+    border-radius: 4px;
+}
+section.auth > form > div > div.auth-button > input {
+    width: 100%;
+    
+}
+section.auth > form > div > div > p {
+    font-family: sans-serif;
+    padding-bottom: 5px;
+}
+section.auth > form > div > div > input {
+    border-radius: 2px;
+    border: 0;
+}
+section.auth > form > div > div:not(.auth-button) > input {
+    background-color: #f1f1f1;
+    font-size: 20px;
+    padding: 5px;
+    outline-color: #5851A5;
+}
+section .auth > form > div > div {
+    margin-bottom:20px;
+}
+section.auth > form > div > div:last-child {
+    margin-bottom: 0;
+}
+
+
+
+
+
+
+
+

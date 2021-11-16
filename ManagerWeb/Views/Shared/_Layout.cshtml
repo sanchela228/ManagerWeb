@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ManagerWeb</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+</head>
+<body>
+    <partial name="_CookieConsentPartial" />
+	<header>
+		<section class="container">
+			<div class="header-section">
+				<div class="logo-position">
+					<img src="~/images/logo-white.png" />
+					@*<object data='~/images/logo-white.svg' type='image/svg+xml' />*@
+				</div>
+				<div class="menu-personal-list">
+					@if (User.Identity.IsAuthenticated)
+					 {
+						<div>
+							<a href="/Home/Account/"><p class="login-user">@User.Identity.Name</p></a>
+						</div>
+					 }
+					@if (User.Identity.IsAuthenticated)
+					 {
+						<div>
+							<form method="post" asp-controller="Home" asp-action="Logout">
+								<div class="exit-button">
+									<input type="submit" value="" />
+								</div>
+							</form>
+						</div>
+					 }
+				</div>
+			</div>
+		</section>
+	</header>
+	<main>
+		<section class="container">
+			<div class="content-section">
+				@RenderBody()
+			</div>
+		</section>
+	</main>
+	<footer>
+		<div id="shreks-image">
+			<img src="~/images/786_7869725_shrek_dankmemes_aesthetic_perfection_cringe_plantillas 1.png" alt="OMG.. this is shrak" />
+		</div>
+	</footer>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

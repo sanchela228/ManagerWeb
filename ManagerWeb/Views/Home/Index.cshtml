@@ -1,0 +1,26 @@
+﻿@model ManagerWeb.Models.User
+@{
+	ViewData["Title"] = "Авторизация";
+}
+
+<link href="~/css/View/Home/Index/view.css" rel="stylesheet" />
+
+<section class="auth">
+	<h2>@ViewData["Title"]</h2>
+	<form method="post" asp-action="Index">
+		<div>
+			<div>
+				<p>Email</p>
+				<input asp-for="Email" required />
+			</div>
+			<div>
+				<p>Password</p>
+				<input name="Password" type="password" value="" required />
+			</div>
+			<div class="auth-button">
+				<input class="button-y" type="submit" value="Войти" />
+			</div>
+		</div>
+	</form>
+</section>
+
