@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManagerWeb.Migrations
 {
     [DbContext(typeof(ManagerWebContext))]
-    [Migration("20211027090131__migration271021_1")]
-    partial class _migration271021_1
+    [Migration("20211119053923_test_1")]
+    partial class test_1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("ManagerWeb.Models.Secrets", b =>
