@@ -25,7 +25,7 @@ getData.then(function (response)
 		},
 		methods:
 		{
-			// search 
+			// start search 
 			beforeEnter: function (el)
 			{
 				el.style.opacity = 0
