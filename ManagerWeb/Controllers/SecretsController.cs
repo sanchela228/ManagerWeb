@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ManagerWeb.Core;
 using ManagerWeb.Models;
-using System.Runtime.Serialization.Json;
 
 namespace ManagerWeb.Controllers
 {
@@ -28,21 +27,9 @@ namespace ManagerWeb.Controllers
 				return LocalRedirect("/");
 			}
 
-			List<Secrets> listSecrets = _context.Secrets.ToList(); https://russianblogs.com/article/24651738514/
+			List<Secrets> listSecrets = _context.Secrets.ToList();
 			return View(listSecrets);
 		}
-
-		[HttpPost]
-		public DataContractJsonSerializer GetJsonSecretsList()
-		{
-			List<Secrets> listSecrets = _context.Secrets.ToList();
-			DataContractJsonSerializer formatter = new DataContractJsonSerializer(typeof(Secrets));
-
-			formatter.WriteObjectContent(listSecrets);
-
-			return listSecrets;
-		}
-
 		// GET: Secrets/Details/5
 		public async Task<IActionResult> Details(int? id)
         {
