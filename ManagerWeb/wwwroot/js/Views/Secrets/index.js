@@ -9,8 +9,10 @@ getData.then(function (response)
 		el: "#secrets-index",
 		data: function () {
 			return {
-				search: "",
-				arSecrets: axiSecretsList
+				search: "", // search input value
+				arSecrets: axiSecretsList, // list secrets array
+				currentSecretsView: undefined, // secret object
+				viewSecretsDetail: false, // show detail view
 			}
 		},
 		computed:
@@ -25,6 +27,12 @@ getData.then(function (response)
 		},
 		methods:
 		{
+			ShowSecretDetail: function(id)
+			{
+				if (this.viewSecretsDetail == false) this.viewSecretsDetail = true;
+				this.currentSecretsView = this.arSecrets[id];
+			},
+
 			// start search 
 			beforeEnter: function (el)
 			{
