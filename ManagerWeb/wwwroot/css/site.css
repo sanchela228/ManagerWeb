@@ -125,5 +125,21 @@ section.container {
     background-color: #5851A5;
 }
 
-
+.clipboard-message {
+    width: 0;
+    font-family: "San Francisco", sans-serif;
+    background-color: #279927;
+    color: white;
+    transition: 0.4s;
+    padding: 0 5px;
+    border-radius: 2px;
+    height: 32px;
+    overflow: hidden;
+    font-size: 17px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation-direction: alternate;
+    white-space: nowrap;
+}
 

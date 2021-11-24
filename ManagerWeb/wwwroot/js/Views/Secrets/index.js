@@ -1,4 +1,5 @@
 ﻿
+
 let getData = axios({ method: "get", url: "/api/APISecrets", responseType: "json" });
 
 getData.then(function (response)
@@ -60,8 +61,59 @@ getData.then(function (response)
 						{ complete: done }
 					)
 				}, delay)
-			}
+			},
 			//end search
+
+			// copy
+			ToCopy: function (copytext, view = true)
+			{
+				let textArea = document.createElement("textarea");
+					textArea.value = copytext;
+					textArea.style.top = "0";
+					textArea.style.left = "0";
+					textArea.style.opacity = "0";
+					textArea.style.position = "fixed";
+
+				document.body.appendChild(textArea);
+				textArea.focus();
+				textArea.select();
+				
+				try
+				{
+					document.execCommand('copy');
+
+					if (view)
+					{
+						let copyNotification = document.createElement("p");
+						copyNotification.textContent = "copy to the clipboard";
+						copyNotification.className = "clipboard-message";
+						copyNotification.style.position = "absolute";
+						copyNotification.style.top = event.pageY + "px";
+						copyNotification.style.left = event.pageX + "px";
+
+						document.body.appendChild(copyNotification);
+
+						window.requestAnimationFrame(function ()
+						{
+							copyNotification.style.width = "155px";
+							setTimeout(() => {
+								copyNotification.style.width = "0";
+								copyNotification.style.padding = "0";
+								setTimeout(() => {
+									document.body.removeChild(copyNotification);
+								}, 600);
+							}, 600);
+						});
+						
+					}
+				}
+				catch (err)
+				{
+					console.error('Fallback: Oops, unable to copy', err);
+				}
+
+				document.body.removeChild(textArea);
+			}
 		},
 		created()
 		{
