@@ -6,6 +6,28 @@ for details on configuring this project to bundle and minify static web assets. 
     font-weight: 400;
     src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
 }
+
+@font-face {
+    font-family: "Raleway";
+    src: url("../fonts/raleway/Raleway-Regular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "Raleway";
+    src: url("../fonts/raleway/Raleway-Medium.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "Raleway";
+    src: url("../fonts/raleway/Raleway-SemiBold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 600;
+} 
+
 a,p {
     text-decoration: none;
     margin: 0;
@@ -141,5 +163,6 @@ section.container {
     justify-content: center;
     animation-direction: alternate;
     white-space: nowrap;
+    pointer-events: none;
 }
 

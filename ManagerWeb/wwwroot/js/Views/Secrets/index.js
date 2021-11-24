@@ -68,11 +68,11 @@ getData.then(function (response)
 			ToCopy: function (copytext, view = true)
 			{
 				let textArea = document.createElement("textarea");
-					textArea.value = copytext;
-					textArea.style.top = "0";
-					textArea.style.left = "0";
-					textArea.style.opacity = "0";
-					textArea.style.position = "fixed";
+				textArea.value = copytext;
+				textArea.style.top = "0";
+				textArea.style.left = "0";
+				textArea.style.opacity = "0";
+				textArea.style.position = "fixed";
 
 				document.body.appendChild(textArea);
 				textArea.focus();
@@ -81,30 +81,30 @@ getData.then(function (response)
 				try
 				{
 					document.execCommand('copy');
-
 					if (view)
 					{
 						let copyNotification = document.createElement("p");
-						copyNotification.textContent = "copy to the clipboard";
+						let eY = event.pageY + 0;
+						let eX = event.pageX + 20;
+						copyNotification.textContent = "Скопировано";
 						copyNotification.className = "clipboard-message";
 						copyNotification.style.position = "absolute";
-						copyNotification.style.top = event.pageY + "px";
-						copyNotification.style.left = event.pageX + "px";
+						copyNotification.style.top = eY + "px";
+						copyNotification.style.left = eX + "px";
 
 						document.body.appendChild(copyNotification);
 
 						window.requestAnimationFrame(function ()
 						{
-							copyNotification.style.width = "155px";
+							copyNotification.style.width = "105px";
 							setTimeout(() => {
 								copyNotification.style.width = "0";
 								copyNotification.style.padding = "0";
 								setTimeout(() => {
 									document.body.removeChild(copyNotification);
-								}, 600);
-							}, 600);
+								}, 700);
+							}, 700);
 						});
-						
 					}
 				}
 				catch (err)
@@ -114,6 +114,7 @@ getData.then(function (response)
 
 				document.body.removeChild(textArea);
 			}
+
 		},
 		created()
 		{
