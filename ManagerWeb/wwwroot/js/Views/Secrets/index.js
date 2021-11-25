@@ -1,5 +1,4 @@
 ﻿
-
 let getData = axios({ method: "get", url: "/api/APISecrets", responseType: "json" });
 
 getData.then(function (response)
@@ -14,6 +13,50 @@ getData.then(function (response)
 				arSecrets: axiSecretsList, // list secrets array
 				currentSecretsView: undefined, // secret object
 				viewSecretsDetail: false, // show detail view
+				detailForm: {
+					typeAction: "edit",
+					fails: false,
+					fields:
+					{
+						OPEN_GUID: {
+							VALUE: false,
+							TYPE: "open",
+							FAILED: false,
+							TEXT: "Открытый ключ"
+						},
+						NAME: {
+							VALUE: null,
+							TYPE: "open",
+							FAILED: false,
+							TEXT: "Имя"
+						},
+						LINK: {
+							VALUE: null,
+							TYPE: "requried",
+							FAILED: false,
+							TEXT: "Ссылка"
+						},
+						LOGIN: {
+							VALUE: null,
+							TYPE: "requried",
+							FAILED: false,
+							TEXT: "Логин"
+						},
+						PASSWORD: {
+							VALUE: null,
+							TYPE: "requried",
+							FAILED: false,
+							TEXT: "Пароль",
+						},
+						COMMENT: {
+							VALUE: null,
+							TYPE: "open",
+							FAILED: false,
+							TEXT: "Комментарий"
+						}
+					}
+				},
+				afterform: false,
 			}
 		},
 		computed:
@@ -28,6 +71,52 @@ getData.then(function (response)
 		},
 		methods:
 		{
+			checkForm: function (e)
+			{
+				e.preventDefault();
+
+				if (this.detailForm.typeAction == "edit")
+				{
+					let isFailed = false;
+
+					for (key in this.detailForm.fields)
+					{
+						let field = this.detailForm.fields[key];
+
+						if (field.TYPE == "requried")
+						{
+							if (field.VALUE == "" || field.VALUE == null || field.VALUE == undefined || field.VALUE == false)
+							{
+								this.detailForm.fails = true;
+								isFailed = true;
+								field.FAILED = true;
+							}
+							else
+							{
+								field.FAILED = false;
+							}
+						}
+					}
+
+					if (!isFailed) this.detailForm.fails = false;
+					
+					if (isFailed == false && this.detailForm.fails == false)
+					{
+						console.log("all ok");
+						let thisItemTeest = this.currentSecretsView;
+
+						axios.post('/api/APISecrets', { thisItemTeest })
+						.then(function (response)
+						{
+							console.log(response);
+						})
+						.catch(function (error)
+						{
+							console.log(error);
+						});
+					}
+				}
+			},
 			ShowSecretDetail: function(id)
 			{
 				if (this.viewSecretsDetail == false) this.viewSecretsDetail = true;

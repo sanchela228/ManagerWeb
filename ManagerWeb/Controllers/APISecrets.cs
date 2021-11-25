@@ -22,109 +22,106 @@ namespace ManagerWeb.Controllers
             _context = context;
         }
 
-        // GET: api/APISecrets
+        // /api/APISecrets get json secrets
         [HttpGet]
         public string GetSecrets()
         {
-			var test = _context.Secrets;
-			string jsonTest = JsonConvert.SerializeObject(test);
+			var secret = _context.Secrets;
+			string jsonTest = JsonConvert.SerializeObject(secret);
 
             return jsonTest;
         }
 
-        // GET: api/APISecrets/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetSecrets([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+		// /api/APISecrets add secret
+		[HttpPost]
+		public async Task<IActionResult> PostSecrets(string secrets)
+		{
+			Secrets secretsTEST = JsonConvert.DeserializeObject<Secrets>(secrets);
 
-            var secrets = await _context.Secrets.FindAsync(id);
+			_context.Secrets.Add(secretsTEST);
+			await _context.SaveChangesAsync();
 
-            if (secrets == null)
-            {
-                return NotFound();
-            }
+			return CreatedAtAction("GetSecrets", new { id = secretsTEST.ID }, secretsTEST);
+		}
 
-            return Ok(secrets);
-        }
+		// GET: api/APISecrets/5
+		//[HttpGet("{id}")]
+		  //      public async Task<IActionResult> GetSecrets([FromRoute] int id)
+		  //      {
+		  //          if (!ModelState.IsValid)
+		  //          {
+		  //              return BadRequest(ModelState);
+		  //          }
 
-        // PUT: api/APISecrets/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutSecrets([FromRoute] int id, [FromBody] Secrets secrets)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+		  //          var secrets = await _context.Secrets.FindAsync(id);
 
-            if (id != secrets.ID)
-            {
-                return BadRequest();
-            }
+		  //          if (secrets == null)
+		  //          {
+		  //              return NotFound();
+		  //          }
 
-            _context.Entry(secrets).State = EntityState.Modified;
+		  //          return Ok(secrets);
+		  //      }
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SecretsExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+		  //      // PUT: api/APISecrets/5
+		  //      [HttpPut("{id}")]
+		  //      public async Task<IActionResult> PutSecrets([FromRoute] int id, [FromBody] Secrets secrets)
+		  //      {
+		  //          if (!ModelState.IsValid)
+		  //          {
+		  //              return BadRequest(ModelState);
+		  //          }
 
-            return NoContent();
-        }
+		  //          if (id != secrets.ID)
+		  //          {
+		  //              return BadRequest();
+		  //          }
 
-        // POST: api/APISecrets
-        [HttpPost]
-        public async Task<IActionResult> PostSecrets([FromBody] Secrets secrets)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+		  //          _context.Entry(secrets).State = EntityState.Modified;
 
-            _context.Secrets.Add(secrets);
-            await _context.SaveChangesAsync();
+		  //          try
+		  //          {
+		  //              await _context.SaveChangesAsync();
+		  //          }
+		  //          catch (DbUpdateConcurrencyException)
+		  //          {
+		  //              if (!SecretsExists(id))
+		  //              {
+		  //                  return NotFound();
+		  //              }
+		  //              else
+		  //              {
+		  //                  throw;
+		  //              }
+		  //          }
 
-            return CreatedAtAction("GetSecrets", new { id = secrets.ID }, secrets);
-        }
+		  //          return NoContent();
+		  //      }
 
-        // DELETE: api/APISecrets/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSecrets([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+		  //      // DELETE: api/APISecrets/5
+		  //      [HttpDelete("{id}")]
+		  //      public async Task<IActionResult> DeleteSecrets([FromRoute] int id)
+		  //      {
+		  //          if (!ModelState.IsValid)
+		  //          {
+		  //              return BadRequest(ModelState);
+		  //          }
 
-            var secrets = await _context.Secrets.FindAsync(id);
-            if (secrets == null)
-            {
-                return NotFound();
-            }
+		  //          var secrets = await _context.Secrets.FindAsync(id);
+		  //          if (secrets == null)
+		  //          {
+		  //              return NotFound();
+		  //          }
 
-            _context.Secrets.Remove(secrets);
-            await _context.SaveChangesAsync();
+		  //          _context.Secrets.Remove(secrets);
+		  //          await _context.SaveChangesAsync();
 
-            return Ok(secrets);
-        }
+		  //          return Ok(secrets);
+		  //      }
 
-        private bool SecretsExists(int id)
-        {
-            return _context.Secrets.Any(e => e.ID == id);
-        }
+		  //      private bool SecretsExists(int id)
+		  //      {
+		  //          return _context.Secrets.Any(e => e.ID == id);
+		  //      }
     }
 }
