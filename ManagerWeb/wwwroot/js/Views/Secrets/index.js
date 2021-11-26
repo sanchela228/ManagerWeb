@@ -104,16 +104,17 @@ getData.then(function (response)
 					{
 						console.log("all ok");
 						let thisItemTeest = this.currentSecretsView;
+						console.log(thisItemTeest);
 
-						axios.post('/api/APISecrets', { thisItemTeest })
-						.then(function (response)
-						{
-							console.log(response);
-						})
-						.catch(function (error)
-						{
-							console.log(error);
-						});
+						//axios.post('/api/APISecrets', thisItemTeest)
+						//.then(function (response)
+						//{
+						//	console.log(response);
+						//})
+						//.catch(function (error)
+						//{
+						//	console.log(error);
+						//});
 					}
 				}
 			},

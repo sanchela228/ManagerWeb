@@ -34,14 +34,13 @@ namespace ManagerWeb.Controllers
 
 		// /api/APISecrets add secret
 		[HttpPost]
-		public async Task<IActionResult> PostSecrets(string secrets)
-		{
-			Secrets secretsTEST = JsonConvert.DeserializeObject<Secrets>(secrets);
+		public async void PostSecrets(Secrets jsonString)
+		{ 
+			//Secrets objSecret = JsonConvert.DeserializeObject<Secrets>(jsonString);
 
-			_context.Secrets.Add(secretsTEST);
+			_context.Secrets.Add(jsonString);
 			await _context.SaveChangesAsync();
 
-			return CreatedAtAction("GetSecrets", new { id = secretsTEST.ID }, secretsTEST);
 		}
 
 		// GET: api/APISecrets/5
