@@ -45,5 +45,22 @@ namespace ManagerWeb.Controllers
 
             return JsonConvert.SerializeObject(Secret);
         }
+
+        // /api/APISecrets/5  delete secret
+        [HttpDelete("{id}")]
+        public string DeleteSecrets([FromRoute] int id)
+        {
+            var secrets = _context.Secrets.Find(id);
+
+            if (secrets == null)
+            {
+                return "not found";
+            }
+
+            _context.Secrets.Remove(secrets);
+            _context.SaveChanges();
+
+            return "ok";
+        }
     }
 }
