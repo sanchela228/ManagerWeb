@@ -12,7 +12,15 @@ getData.then(function (response)
 				search: "", // search input value
 				arSecrets: axiSecretsList, // list secrets array
 				currentSecretsView: undefined, // secret object
-				viewSecretsDetail: false, // show detail view
+				objUpdateSecret: {  // secret object to update
+					OPEN_GUID: undefined,
+					NAME: undefined,
+					LINK: undefined,
+					LOGIN: undefined,
+					PASSWORD: undefined,
+					COMMENT: undefined
+				},
+				viewSecretsDetail: true, // show detail view
 				detailForm: {
 					typeAction: "edit",
 					fails: false,
@@ -103,18 +111,24 @@ getData.then(function (response)
 					if (isFailed == false && this.detailForm.fails == false)
 					{
 						console.log("all ok");
-						let thisItemTeest = this.currentSecretsView;
-						console.log(thisItemTeest);
 
-						//axios.post('/api/APISecrets', thisItemTeest)
-						//.then(function (response)
-						//{
-						//	console.log(response);
-						//})
-						//.catch(function (error)
-						//{
-						//	console.log(error);
-						//});
+						for (key in this.detailForm.fields) this.objUpdateSecret[key] = this.detailForm.fields[key].VALUE;
+
+						console.log(this.objUpdateSecret);
+
+						let testtest = this;
+
+						axios.post('/api/APISecrets', this.objUpdateSecret)
+						.then(function (response)
+						{
+							console.log(response);
+							testtest.arSecrets.unshift(response.data);
+							
+						})
+						.catch(function (error)
+						{
+							console.log(error);
+						});
 					}
 				}
 			},
@@ -132,7 +146,7 @@ getData.then(function (response)
 			},
 			enter: function (el, done)
 			{
-				var delay = el.dataset.index * 150
+				var delay = el.dataset.index;
 				setTimeout(function () {
 					Velocity(
 						el,
@@ -143,7 +157,7 @@ getData.then(function (response)
 			},
 			leave: function (el, done)
 			{
-				var delay = el.dataset.index * 150
+				var delay = el.dataset.index;
 				setTimeout(function () {
 					Velocity(
 						el,

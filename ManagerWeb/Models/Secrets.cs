@@ -25,5 +25,6 @@ namespace ManagerWeb.Models
 		public string PASSWORD { get; set; }
 		public string COMMENT { get; set; }
 		public int CREATOR_ID { get; set; }
+
 	}
 }
