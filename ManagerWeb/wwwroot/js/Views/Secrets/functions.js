@@ -1,12 +1,4 @@
-﻿function CreateObjectUpdateForm(formFields, arrIgnore = false)
+﻿function CreateObjectUpdateForm()
 {
-	let arResult;
-	for (key in formFields)
-	{
-		let field = formFields[key];
-		console.log()
-		arResult[key] = field.VALUE;
-	}
-
-	return arResult;
+	return false;
 }

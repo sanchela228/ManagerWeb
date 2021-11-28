@@ -35,7 +35,7 @@ namespace ManagerWeb.Controllers
 
 		// /api/APISecrets add secret
 		[HttpPost]
-		public string PostSecrets(Secrets Secret)
+		public string PostSecrets([FromBody] Secrets Secret)
 		{
             Secret.GUID = Guid.NewGuid();
             Secret.CREATOR_ID = 0;
@@ -60,7 +60,30 @@ namespace ManagerWeb.Controllers
             _context.Secrets.Remove(secrets);
             _context.SaveChanges();
 
-            return "ok";
+            return "delete ok";
         }
-    }
+
+		// PUT: api/APISecrets/5
+		[HttpPut("{id}")]
+		public string PutSecrets([FromRoute] int id, [FromBody] Secrets secrets)
+		{
+			if (id != secrets.ID)
+			{
+				return "not found";
+			}
+
+			_context.Entry(secrets).State = EntityState.Modified;
+
+			try
+			{
+				 _context.SaveChanges();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				throw;
+			}
+
+			return "edit ok";
+		}
+	}
 }

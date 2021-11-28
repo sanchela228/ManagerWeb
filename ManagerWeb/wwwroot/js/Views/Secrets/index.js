@@ -80,12 +80,11 @@ getData.then(function (response)
 		},
 		methods:
 		{
-			
 			checkForm: function (e)
 			{
 				e.preventDefault();
 
-				if (this.detailForm.typeAction == "create")
+				if (this.detailForm.typeAction == "create" || this.detailForm.typeAction == "edit")
 				{
 					let isFailed = false;
 
@@ -113,24 +112,39 @@ getData.then(function (response)
 					if (isFailed == false && this.detailForm.fails == false)
 					{
 						console.log("all ok");
-
-						for (key in this.detailForm.fields) this.objUpdateSecret[key] = this.detailForm.fields[key].VALUE;
-
-						console.log(this.objUpdateSecret);
-
 						let objVueThis = this;
 
-						axios.post('/api/APISecrets', this.objUpdateSecret)
-						.then(function (response)
+						switch (this.detailForm.typeAction)
 						{
-							console.log(response);
-							objVueThis.arSecrets.unshift(response.data);
-							
-						})
-						.catch(function (error)
-						{
-							console.log(error);
-						});
+							case "edit":
+								for (key in this.detailForm.fields) this.currentSecretsView[key] = this.detailForm.fields[key].VALUE;
+								axios.put('/api/APISecrets/' + this.currentSecretsView.ID, this.currentSecretsView)
+								.then(function (response)
+								{
+									console.log(response);
+									objVueThis.detailForm.typeAction = "view";
+								})
+								.catch(function (error)
+								{
+									console.log(error);
+								});
+							break;
+
+							case "create":
+								for (key in this.detailForm.fields) this.objUpdateSecret[key] = this.detailForm.fields[key].VALUE;
+								console.log(this.objUpdateSecret);
+
+								axios.post('/api/APISecrets', this.objUpdateSecret)
+								.then(function (response)
+								{
+									objVueThis.arSecrets.unshift(response.data);
+								})
+								.catch(function (error)
+								{
+									console.log(error);
+								});
+							break;
+						}
 					}
 				}
 			},
@@ -176,12 +190,21 @@ getData.then(function (response)
 						if (this.viewSecretsDetail == false) this.viewSecretsDetail = true;
 						this.detailForm.typeAction = typeAction;
 					break;
+
+					case "delete":
+						if (this.viewSecretsDetail == true) this.viewSecretsDetail = false;
+						this.currentSecretsView = undefined;
+						this.currentSecretsID = undefined;
+
+					break;
 				}
 			},
 			DeleteSecret: function ()
 			{
 				axios.delete('/api/APISecrets/' + this.currentSecretsView.ID);
 				this.arSecrets.splice(this.currentSecretsID, 1);
+
+				this.ShowSecretDetail("delete");
 			},
 			// start search 
 			beforeEnter: function (el)
