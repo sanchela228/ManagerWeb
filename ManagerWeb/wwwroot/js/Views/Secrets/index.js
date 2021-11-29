@@ -7,7 +7,8 @@ getData.then(function (response)
 
 	var secrets = new Vue({
 		el: "#secrets-index",
-		data: function () {
+		data: function ()
+		{
 			return {
 				search: "", // search input value
 				arSecrets: axiSecretsList, // list secrets array
@@ -138,6 +139,8 @@ getData.then(function (response)
 								.then(function (response)
 								{
 									objVueThis.arSecrets.unshift(response.data);
+									objVueThis.currentSecretsView = response.data;
+									objVueThis.detailForm.typeAction = "view";
 								})
 								.catch(function (error)
 								{
@@ -189,6 +192,8 @@ getData.then(function (response)
 					case "create":
 						if (this.viewSecretsDetail == false) this.viewSecretsDetail = true;
 						this.detailForm.typeAction = typeAction;
+						this.currentSecretsView = undefined;
+						this.currentSecretsID = undefined;
 					break;
 
 					case "delete":

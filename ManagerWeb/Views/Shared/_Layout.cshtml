@@ -42,6 +42,22 @@
 		</section>
 	</header>
 	<main>
+		<svg id="background-animation" version="1.1" xmlns="http://www.w3.org/2000/svg">
+			<defs>
+				<linearGradient id="Gradient" x1="0" x2="0" y1="0" y2="0">
+					<animate attributeName="x1" values="0;0;1;1;0" keyTimes="0;.25;.5;.75;1" dur="30s" repeatCount="indefinite"></animate>
+					<animate attributeName="y1" values="0;1;1;0;0" keyTimes="0;.25;.5;.75;1" dur="30s" repeatCount="indefinite"></animate>
+					<animate attributeName="x2" values="1;1;0;0;1" keyTimes="0;.25;.5;.75;1" dur="30s" repeatCount="indefinite"></animate>
+					<animate attributeName="y2" values="1;0;0;1;1" keyTimes="0;.25;.5;.75;1" dur="30s" repeatCount="indefinite"></animate>
+					<stop offset="0%" stop-color="#DFEDFF"></stop>
+					<stop offset="70%" stop-color="#FFD3FD"></stop>
+					<stop offset="100%" stop-color="#DFEDFF"></stop>
+				</linearGradient>
+			</defs>
+			<rect x="0" y="0" fill="url(#Gradient)"></rect>
+		</svg>
+		@*<img id="loader-page-v" src="~/images/loader.svg" />*@
+
 		<section class="container">
 			<div class="content-section">
 				@RenderBody()
