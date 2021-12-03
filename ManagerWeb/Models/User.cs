@@ -9,5 +9,7 @@ namespace ManagerWeb.Models
 	public class User : IdentityUser
 	{
 		public string NAME { get; set; }
+
+		public Guid SECTION_ID { get; set; }
 	}
 }

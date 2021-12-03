@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManagerWeb.Migrations
 {
     [DbContext(typeof(ManagerWebContext))]
-    [Migration("20211127121954_newop")]
-    partial class newop
+    [Migration("20211203162632_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,7 +26,7 @@ namespace ManagerWeb.Migrations
 
                     b.Property<string>("COMMENT");
 
-                    b.Property<int>("CREATOR_ID");
+                    b.Property<Guid>("CREATOR_ID");
 
                     b.Property<Guid>("GUID");
 
@@ -47,6 +47,22 @@ namespace ManagerWeb.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Secrets");
+                });
+
+            modelBuilder.Entity("ManagerWeb.Models.Section", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CREATOR_ID");
+
+                    b.Property<string>("NAME");
+
+                    b.Property<Guid?>("PARENT_SECTION");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Section");
                 });
 
             modelBuilder.Entity("ManagerWeb.Models.User", b =>
@@ -81,6 +97,8 @@ namespace ManagerWeb.Migrations
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<Guid>("SECTION_ID");
 
                     b.Property<string>("SecurityStamp");
 

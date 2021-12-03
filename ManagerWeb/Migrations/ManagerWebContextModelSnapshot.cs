@@ -24,7 +24,7 @@ namespace ManagerWeb.Migrations
 
                     b.Property<string>("COMMENT");
 
-                    b.Property<int>("CREATOR_ID");
+                    b.Property<Guid>("CREATOR_ID");
 
                     b.Property<Guid>("GUID");
 
@@ -45,6 +45,22 @@ namespace ManagerWeb.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Secrets");
+                });
+
+            modelBuilder.Entity("ManagerWeb.Models.Section", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CREATOR_ID");
+
+                    b.Property<string>("NAME");
+
+                    b.Property<Guid?>("PARENT_SECTION");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Section");
                 });
 
             modelBuilder.Entity("ManagerWeb.Models.User", b =>
@@ -79,6 +95,8 @@ namespace ManagerWeb.Migrations
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<Guid>("SECTION_ID");
 
                     b.Property<string>("SecurityStamp");
 

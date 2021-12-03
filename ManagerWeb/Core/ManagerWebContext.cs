@@ -17,5 +17,6 @@ namespace ManagerWeb.Core
 		}
 
 		public DbSet<Secrets> Secrets { get; set; }
+		public DbSet<Section> Section { get; set; }
 	}
 }

@@ -38,7 +38,7 @@ namespace ManagerWeb.Controllers
 		public string PostSecrets([FromBody] Secrets Secret)
 		{
             Secret.GUID = Guid.NewGuid();
-            Secret.CREATOR_ID = 0;
+            Secret.CREATOR_ID = new Guid("9ff98e85-a886-424b-87c4-038f808462b6");
 
             _context.Secrets.Add(Secret);
 			_context.SaveChanges();

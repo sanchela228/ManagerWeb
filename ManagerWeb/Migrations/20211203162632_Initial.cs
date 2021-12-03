@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ManagerWeb.Migrations
 {
-    public partial class newop : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,7 +41,8 @@ namespace ManagerWeb.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    NAME = table.Column<string>(nullable: true)
+                    NAME = table.Column<string>(nullable: true),
+                    SECTION_ID = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -61,11 +62,25 @@ namespace ManagerWeb.Migrations
                     LOGIN = table.Column<string>(nullable: false),
                     PASSWORD = table.Column<string>(maxLength: 32, nullable: false),
                     COMMENT = table.Column<string>(nullable: true),
-                    CREATOR_ID = table.Column<int>(nullable: false)
+                    CREATOR_ID = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Secrets", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Section",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(nullable: false),
+                    NAME = table.Column<string>(nullable: true),
+                    PARENT_SECTION = table.Column<Guid>(nullable: true),
+                    CREATOR_ID = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Section", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -231,6 +246,9 @@ namespace ManagerWeb.Migrations
 
             migrationBuilder.DropTable(
                 name: "Secrets");
+
+            migrationBuilder.DropTable(
+                name: "Section");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
