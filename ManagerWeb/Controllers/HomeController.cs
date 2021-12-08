@@ -28,7 +28,7 @@ namespace ManagerWeb.Controllers
 			}
 			else
 			{
-				return View();
+				return View(_userManager);
 			}
 		}
 

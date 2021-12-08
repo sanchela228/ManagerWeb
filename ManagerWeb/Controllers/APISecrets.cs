@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ManagerWeb.Core;
 using ManagerWeb.Models;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Identity;
 
 namespace ManagerWeb.Controllers
 {
@@ -15,12 +16,14 @@ namespace ManagerWeb.Controllers
     [ApiController]
     public class APISecrets : ControllerBase
     {
-        private readonly ManagerWebContext _context;
+		private readonly UserManager<User> _userManager;
+		private readonly ManagerWebContext _context;
 
-        public APISecrets(ManagerWebContext context)
+        public APISecrets(ManagerWebContext context, UserManager<User> userManager)
         {
             _context = context;
-        }
+			_userManager = userManager;
+		}
 
         // /api/APISecrets get json secrets
         [HttpGet]
@@ -38,7 +41,7 @@ namespace ManagerWeb.Controllers
 		public string PostSecrets([FromBody] Secrets Secret)
 		{
             Secret.GUID = Guid.NewGuid();
-            Secret.CREATOR_ID = new Guid("9ff98e85-a886-424b-87c4-038f808462b6");
+            Secret.CREATOR_ID = new Guid(_userManager.GetUserId(User));
 
             _context.Secrets.Add(Secret);
 			_context.SaveChanges();
