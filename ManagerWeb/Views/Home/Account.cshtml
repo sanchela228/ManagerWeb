@@ -4,6 +4,14 @@
 	ViewData["Title"] = "Здесь будет профиль пользователя";
 }
 
-<h2>@ViewData["Title"]</h2>
-<div id="test"></div>
+<link rel="stylesheet" href="~/css/Views/Home/account.css" />
+<script src="~/js/Views/Home/functions.js"></script>
+<script src="~/js/Views/Home/account.js"></script>
 
+<h2>@ViewData["Title"]</h2>
+
+<section class="account-view" v-if="load" id="account-page">
+	<div>
+		<p>{{sections}}</p>
+	</div>
+</section>

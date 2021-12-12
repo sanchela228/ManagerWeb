@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ManagerWeb.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class fuck : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -62,7 +62,8 @@ namespace ManagerWeb.Migrations
                     LOGIN = table.Column<string>(nullable: false),
                     PASSWORD = table.Column<string>(maxLength: 32, nullable: false),
                     COMMENT = table.Column<string>(nullable: true),
-                    CREATOR_ID = table.Column<Guid>(nullable: false)
+                    CREATOR_ID = table.Column<Guid>(nullable: false),
+                    SECTION_ID = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
