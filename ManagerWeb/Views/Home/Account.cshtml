@@ -11,7 +11,7 @@
 <h2>@ViewData["Title"]</h2>
 
 <section class="account-view" v-if="load" id="account-page">
-	<div>
-		<p>{{sections}}</p>
+	<div v-for="section in sections">
+		<p>{{section.NAME}}</p>
 	</div>
 </section>

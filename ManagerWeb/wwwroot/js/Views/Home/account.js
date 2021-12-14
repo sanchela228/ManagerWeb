@@ -18,6 +18,8 @@
 			getData.then(function (response) {
 				thisVue.sections = response.data;
 				thisVue.load = true;
+
+				console.log(response);
 			});
 		}
 	})

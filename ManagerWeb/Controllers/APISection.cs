@@ -28,26 +28,21 @@ namespace ManagerWeb.Controllers
         [HttpGet]
         public string GetSection()
         {
-            var Sections = _context.Section.FromSql(
-                @"select *
-                    from section employee
-                    join section manager
-                    on manager.ID=employee.PARENT_SECTION
-                    where manager.ID='94240316-7700-430b-837d-280bb9d31997'");
+			var currentUser = _userManager.GetUserAsync(User);
+			string codeSection = currentUser.Result.SECTION_ID.ToString();
 
-            //94240316-7700-430b-837d-280bb9d31997
-            Console.WriteLine(Sections);
+			var Sections = _context.Section.FromSql(
+				@"select  ID, NAME, PARENT_SECTION, CREATOR_ID
+					from    (select * from section
+								order by PARENT_SECTION, ID) products_sorted,
+							(select @pv := '"+ codeSection + @"') initialisation
+					where   find_in_set(PARENT_SECTION, @pv)
+					and     length(@pv := concat(@pv, ',', ID))");
+
             string jsonSections = JsonConvert.SerializeObject(Sections);
 
             return jsonSections;
-
-
-            //var sections = _context.Section.OrderByDescending(b => b.NAME);
-            //string jsonSections = JsonConvert.SerializeObject(sections);
-
-            //return jsonSections;
         }
-
 
 
     }
