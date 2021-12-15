@@ -10,5 +10,7 @@ namespace ManagerWeb.Models
 	{
 		public string NAME { get; set; }
 		public Guid SECTION_ID { get; set; }
+		public bool EDIT_USER { get; set; }
+		public bool EDIT_SECTION { get; set; }
 	}
 }

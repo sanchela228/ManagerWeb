@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManagerWeb.Migrations
 {
     [DbContext(typeof(ManagerWebContext))]
-    [Migration("20211212160421_fuck")]
-    partial class fuck
+    [Migration("20211215162439_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
+                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("ManagerWeb.Models.Secrets", b =>
@@ -29,6 +29,8 @@ namespace ManagerWeb.Migrations
                     b.Property<Guid>("CREATOR_ID");
 
                     b.Property<Guid>("GUID");
+
+                    b.Property<string>("HEX_COLOR");
 
                     b.Property<string>("LINK")
                         .IsRequired();
@@ -76,6 +78,10 @@ namespace ManagerWeb.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<bool>("EDIT_SECTION");
+
+                    b.Property<bool>("EDIT_USER");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);

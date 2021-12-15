@@ -29,7 +29,10 @@ namespace ManagerWeb.Controllers
         [HttpGet]
         public string GetSecrets()
         {
-			var secret = _context.Secrets.OrderByDescending(b => b.ID);
+			var currentUser = _userManager.GetUserAsync(User);
+			string codeSection = currentUser.Result.SECTION_ID.ToString();
+
+			var secret = _context.Secrets.Where(b => b.SECTION_ID.ToString() == codeSection).OrderByDescending(b => b.ID);
 
             string jsonTest = JsonConvert.SerializeObject(secret);
 
@@ -43,7 +46,12 @@ namespace ManagerWeb.Controllers
             Secret.GUID = Guid.NewGuid();
             Secret.CREATOR_ID = new Guid(_userManager.GetUserId(User));
 
-            _context.Secrets.Add(Secret);
+			var currentUser = _userManager.GetUserAsync(User);
+			string codeSection = currentUser.Result.SECTION_ID.ToString();
+
+			Secret.SECTION_ID = new Guid(codeSection);
+
+			_context.Secrets.Add(Secret);
 			_context.SaveChanges();
 
             return JsonConvert.SerializeObject(Secret);

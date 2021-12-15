@@ -51,7 +51,7 @@ body {
     width: 100%;
     max-width: 100%;
     height: 100%;
-    background-color: #F1F1F1;
+    background-color: white;
 }
 header {
     background-color: #242424;
@@ -73,7 +73,7 @@ footer {
     z-index: -1;
 }
 section.container {
-    max-width: 1240px;
+    max-width: 1040px;
     display: block;
     margin: 0 auto;
     padding-left: 20px;

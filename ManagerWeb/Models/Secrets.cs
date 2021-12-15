@@ -25,7 +25,8 @@ namespace ManagerWeb.Models
 		public string PASSWORD { get; set; }
 		public string COMMENT { get; set; }
 		public Guid CREATOR_ID { get; set; }
-		//public Guid? SECTION_ID { get; set; }
+		public Guid? SECTION_ID { get; set; }
+		public string HEX_COLOR { get; set; }
 
 	}
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ManagerWeb.Migrations
 {
-    public partial class fuck : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,7 +42,9 @@ namespace ManagerWeb.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     NAME = table.Column<string>(nullable: true),
-                    SECTION_ID = table.Column<Guid>(nullable: false)
+                    SECTION_ID = table.Column<Guid>(nullable: false),
+                    EDIT_USER = table.Column<bool>(nullable: false),
+                    EDIT_SECTION = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,7 +65,8 @@ namespace ManagerWeb.Migrations
                     PASSWORD = table.Column<string>(maxLength: 32, nullable: false),
                     COMMENT = table.Column<string>(nullable: true),
                     CREATOR_ID = table.Column<Guid>(nullable: false),
-                    SECTION_ID = table.Column<Guid>(nullable: true)
+                    SECTION_ID = table.Column<Guid>(nullable: true),
+                    HEX_COLOR = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
