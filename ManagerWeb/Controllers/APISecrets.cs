@@ -29,14 +29,31 @@ namespace ManagerWeb.Controllers
         [HttpGet]
         public string GetSecrets()
         {
+			IOrderedQueryable<Secrets> secretsData;
+			List<IOrderedQueryable> secretsList = new List<IOrderedQueryable>();
+
 			var currentUser = _userManager.GetUserAsync(User);
 			string codeSection = currentUser.Result.SECTION_ID.ToString();
+			var Sections = _context.Section.FromSql(
+				@"select  ID, NAME, PARENT_SECTION, CREATOR_ID
+					from    (select * from section
+								order by PARENT_SECTION, ID) products_sorted,
+							(select @pv := '" + codeSection + @"') initialisation
+					where   find_in_set(PARENT_SECTION, @pv)
+					and     length(@pv := concat(@pv, ',', ID))");
 
-			var secret = _context.Secrets.Where(b => b.SECTION_ID.ToString() == codeSection).OrderByDescending(b => b.ID);
+			foreach (Section section in Sections)
+			{
+				secretsData = _context.Secrets.Where(b => b.SECTION_ID == section.ID).OrderByDescending(b => b.ID);
+				secretsList.Add(secretsData);
+			}
 
-            string jsonTest = JsonConvert.SerializeObject(secret);
+			secretsData = _context.Secrets.Where(b => b.SECTION_ID.ToString() == codeSection).OrderByDescending(b => b.ID);
+			secretsList.Add(secretsData);
 
-            return jsonTest;
+			string json = JsonConvert.SerializeObject(secretsList);
+
+            return json;
         }
 
 		// /api/APISecrets add secret
