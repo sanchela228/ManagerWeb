@@ -29,8 +29,9 @@ var secrets = new Vue({
 				bar: {
 					background: 'black',
 					opacity: 0.6
-				}
+				},
 			},
+			countPersonalGroup: 0,
 			search: "", // search input value
 			arSecrets: undefined, // list secrets array
 			currentSecretsView: undefined, // secret object
@@ -46,7 +47,7 @@ var secrets = new Vue({
 			},
 			viewSecretsDetail: false, // show detail view
 			detailForm: {
-				typeAction: "view",
+				typeAction: "",
 				fails: false,
 				fields:
 				{
@@ -95,6 +96,7 @@ var secrets = new Vue({
 				}
 			},
 			afterform: false,
+			passwordView: true,
 			hexColors: ["#e74131", "#c85cf5", "#5f75df", "#6cdf8f", "#a3df6c", "#c3c3c3"]
 		}
 	},
@@ -110,6 +112,10 @@ var secrets = new Vue({
 	},
 	methods:
 	{
+		ShowPasswordLine: function ()
+		{
+			this.passwordView = !this.passwordView;
+		},
 		checkForm: function (e)
 		{
 			e.preventDefault();
@@ -182,6 +188,8 @@ var secrets = new Vue({
 		},
 		ShowSecretDetail: function(typeAction, id = null)
 		{
+			this.passwordView = true;
+
 			for (key in this.detailForm.fields)
 			{
 				if (key == "OPEN_GUID")
@@ -348,6 +356,10 @@ var secrets = new Vue({
 			thisVueObject.load = true;
 		});
 
+		let userscountData = axios({ method: "get", url: "/api/APISection/users", responseType: "json" });
+		userscountData.then(function (response) {
+			console.log(response)
+		});
 	}
 });
 

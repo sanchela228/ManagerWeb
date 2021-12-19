@@ -13,7 +13,21 @@
 	</environment>
 </head>
 <body>
-    <partial name="_CookieConsentPartial" />
+	<svg id="background-animation" version="1.1" xmlns="http://www.w3.org/2000/svg">
+		<defs>
+			<linearGradient id="Gradient" x1="0" x2="0" y1="0" y2="0">
+				<animate attributeName="x1" values="0;0;1;1;0" keyTimes="0;.25;.5;.75;1" dur="30s" repeatCount="indefinite"></animate>
+				<animate attributeName="y1" values="0;1;1;0;0" keyTimes="0;.25;.5;.75;1" dur="30s" repeatCount="indefinite"></animate>
+				<animate attributeName="x2" values="1;1;0;0;1" keyTimes="0;.25;.5;.75;1" dur="30s" repeatCount="indefinite"></animate>
+				<animate attributeName="y2" values="1;0;0;1;1" keyTimes="0;.25;.5;.75;1" dur="30s" repeatCount="indefinite"></animate>
+				<stop offset="0%" stop-color="#DFEDFF"></stop>
+				<stop offset="70%" stop-color="#FFD3FD"></stop>
+				<stop offset="100%" stop-color="#DFEDFF"></stop>
+			</linearGradient>
+		</defs>
+		<rect x="0" y="0" fill="url(#Gradient)"></rect>
+	</svg>
+	<partial name="_CookieConsentPartial" />
 	<header>
 		<section class="container">
 			<div class="header-section">
@@ -23,13 +37,13 @@
 				</div>
 				<div class="menu-personal-list">
 					@if (User.Identity.IsAuthenticated)
-					 {
+					{
 						<div>
 							<a href="/Home/Account/"><p class="login-user">@User.Identity.Name</p></a>
 						</div>
-					 }
+					}
 					@if (User.Identity.IsAuthenticated)
-					 {
+					{
 						<div>
 							<form method="post" asp-controller="Home" asp-action="Logout">
 								<div class="exit-button">
@@ -37,7 +51,7 @@
 								</div>
 							</form>
 						</div>
-					 }
+					}
 				</div>
 			</div>
 		</section>
@@ -59,18 +73,18 @@
 	<environment include="Development">
 		<script src="~/lib/jquery/dist/jquery.js"></script>
 		<script src="~/js/site.js" asp-append-version="true"></script>
-		
-	</environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
 
-    @RenderSection("Scripts", required: false)
+	</environment>
+	<environment exclude="Development">
+		<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+				asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+				asp-fallback-test="window.jQuery"
+				crossorigin="anonymous"
+				integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+		</script>
+		<script src="~/js/site.min.js" asp-append-version="true"></script>
+	</environment>
+
+	@RenderSection("Scripts", required: false)
 </body>
 </html>
