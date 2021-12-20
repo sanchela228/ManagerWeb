@@ -37,14 +37,14 @@ namespace ManagerWeb.Controllers
 								order by PARENT_SECTION, ID) products_sorted,
 							(select @pv := '" + codeSection + @"') initialisation
 					where   find_in_set(PARENT_SECTION, @pv)
-					and     length(@pv := concat(@pv, ',', ID))");
+					and     length(@pv := concat(@pv, ',', ID))").ToList();
 
             string jsonSections = JsonConvert.SerializeObject(Sections);
 
             return jsonSections;
         }
 
-        [HttpGet("api/[controller]/{apiname}", Name = "users")]
+        [HttpGet("users")]
         public string GetUsersBySection()
         {
             var currentUser = _userManager.GetUserAsync(User);

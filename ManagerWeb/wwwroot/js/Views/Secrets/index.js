@@ -97,6 +97,7 @@ var secrets = new Vue({
 			},
 			afterform: false,
 			passwordView: true,
+			sectionList: undefined,
 			hexColors: ["#e74131", "#c85cf5", "#5f75df", "#6cdf8f", "#a3df6c", "#c3c3c3"]
 		}
 	},
@@ -348,7 +349,6 @@ var secrets = new Vue({
 
 			for (var index = 0; index < response.data.length; index++)
 			{
-				const element = response.data[index];
 				Secrets = Secrets.concat(response.data[index]);
 			}
 
@@ -358,8 +358,15 @@ var secrets = new Vue({
 
 		let userscountData = axios({ method: "get", url: "/api/APISection/users", responseType: "json" });
 		userscountData.then(function (response) {
-			console.log(response)
+			thisVueObject.countPersonalGroup = response.data.length;
 		});
+
+		let sectionlistData = axios({ method: "get", url: "/api/APISection", responseType: "json" });
+		sectionlistData.then(function (response) {
+			thisVueObject.sectionList = response.data;
+		});
+
+
 	}
 });
 
