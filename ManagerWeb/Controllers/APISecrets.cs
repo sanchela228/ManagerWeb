@@ -29,32 +29,32 @@ namespace ManagerWeb.Controllers
         [HttpGet]
         public string GetSecrets()
         {
-			IOrderedQueryable<Secrets> secretsData;
-			List<IOrderedQueryable> secretsList = new List<IOrderedQueryable>();
-
 			var currentUser = _userManager.GetUserAsync(User);
-			string codeSection = currentUser.Result.SECTION_ID.ToString();
-			var Sections = _context.Section.FromSql(
-				@"select  ID, NAME, PARENT_SECTION, CREATOR_ID
-					from    (select * from section
-								order by PARENT_SECTION, ID) products_sorted,
-							(select @pv := '" + codeSection + @"') initialisation
-					where   find_in_set(PARENT_SECTION, @pv)
-					and     length(@pv := concat(@pv, ',', ID))");
+			var codeSection = currentUser.Result.SECTION_ID.ToString();
 
-			foreach (Section section in Sections)
+			List<Section> listSections = _context.Section.ToList();
+			List<Secrets> listSecrets = new List<Secrets>();
+
+			var listSectionsChildrens = GetChildren(listSections, codeSection);
+			listSectionsChildrens.AddRange(_context.Section.Where(b => b.ID.ToString() == codeSection));
+
+			foreach(Section section in listSectionsChildrens)
 			{
-				secretsData = _context.Secrets.Where(b => b.SECTION_ID == section.ID).OrderByDescending(b => b.ID);
-				secretsList.Add(secretsData);
+				listSecrets.AddRange(_context.Secrets.Where(b => b.SECTION_ID == section.I);
 			}
 
-			secretsData = _context.Secrets.Where(b => b.SECTION_ID.ToString() == codeSection).OrderByDescending(b => b.ID);
-			secretsList.Add(secretsData);
+			string jsonSections = JsonConvert.SerializeObject(listSecrets);
+			return jsonSections;
+		}
 
-			string json = JsonConvert.SerializeObject(secretsList);
-
-            return json;
-        }
+		List<Section> GetChildren(List<Section> listSections, string id)
+		{
+			return listSections
+				.Where(x => x.PARENT_SECTION.ToString() == id)
+				.Union(listSections.Where(x => x.PARENT_SECTION.ToString() == id)
+					.SelectMany(y => GetChildren(listSections, y.ID.ToString()))
+				).ToList();
+		}
 
 		// /api/APISecrets add secret
 		[HttpPost]
