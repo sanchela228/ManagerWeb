@@ -40,7 +40,7 @@ namespace ManagerWeb.Controllers
 
 			foreach(Section section in listSectionsChildrens)
 			{
-				listSecrets.AddRange(_context.Secrets.Where(b => b.SECTION_ID == section.I);
+				listSecrets.AddRange(_context.Secrets.Where(b => b.SECTION_ID == section.ID));
 			}
 
 			string jsonSections = JsonConvert.SerializeObject(listSecrets);
