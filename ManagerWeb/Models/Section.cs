@@ -12,5 +12,7 @@ namespace ManagerWeb.Models
 		public string NAME { get; set; }
 		public Guid? PARENT_SECTION { get; set; }
 		public Guid? CREATOR_ID { get; set; }
+
+		//public List<Section> Children { get; set; }
 	}
 }

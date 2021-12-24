@@ -29,22 +29,26 @@ namespace ManagerWeb.Controllers
         public string GetSection()
         {
             var currentUser = _userManager.GetUserAsync(User);
-            string codeSection = currentUser.Result.SECTION_ID.ToString();
+            var codeSection = currentUser.Result.SECTION_ID.ToString();
 
-            var Sections = _context.Section.FromSql(
-                @"select  ID, NAME, PARENT_SECTION, CREATOR_ID
-					from    (select * from section
-								order by PARENT_SECTION, ID) products_sorted,
-							(select @pv := '" + codeSection + @"') initialisation
-					where   find_in_set(PARENT_SECTION, @pv)
-					and     length(@pv := concat(@pv, ',', ID))").ToList();
+			List<Section> listSections = _context.Section.ToList();
 
-            string jsonSections = JsonConvert.SerializeObject(Sections);
+			var listSectionsChildrens = GetChildren(listSections, codeSection);
+			string jsonSections = JsonConvert.SerializeObject(listSectionsChildrens);
 
-            return jsonSections;
-        }
+			return jsonSections;
+		}
 
-        [HttpGet("users")]
+		List<Section> GetChildren(List<Section> listSections, string id)
+		{
+			return listSections
+				.Where(x => x.PARENT_SECTION.ToString() == id)
+				.Union(listSections.Where(x => x.PARENT_SECTION.ToString() == id)
+					.SelectMany(y => GetChildren(listSections, y.ID.ToString()))
+				).ToList();
+		}
+
+		[HttpGet("users")]
         public string GetUsersBySection()
         {
             var currentUser = _userManager.GetUserAsync(User);
