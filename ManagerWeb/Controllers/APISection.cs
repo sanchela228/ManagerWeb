@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,24 +20,24 @@ namespace ManagerWeb.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ManagerWebContext _context;
 
-        public APISection(ManagerWebContext context, UserManager<User> userManager)
+		public APISection(ManagerWebContext context, UserManager<User> userManager, ClaimsPrincipal User)
         {
             _context = context;
             _userManager = userManager;
-        }
+		}
 
         [HttpGet]
         public string GetSection()
         {
-            var currentUser = _userManager.GetUserAsync(User);
-            var codeSection = currentUser.Result.SECTION_ID.ToString();
+			var currentUser = _userManager.GetUserAsync(User);
+			string codeSection = currentUser.Result.SECTION_ID.ToString();
 
 			List<Section> listSections = _context.Section.ToList();
 
-			var listSectionsChildrens = GetChildren(listSections, codeSection);
-			string jsonSections = JsonConvert.SerializeObject(listSectionsChildrens);
+			var listSectionChildrens = GetChildren(listSections, codeSection);
+			string json = JsonConvert.SerializeObject(listSectionChildrens);
 
-			return jsonSections;
+			return json;
 		}
 
 		List<Section> GetChildren(List<Section> listSections, string id)
@@ -48,13 +49,25 @@ namespace ManagerWeb.Controllers
 				).ToList();
 		}
 
+		//[HttpGet("group")]
+		//public string GetGroupName()
+		//{
+		//	var currentUser = _userManager.GetUserAsync(User);
+		//	string codeSection = currentUser.Result.SECTION_ID.ToString();
+
+		//	var listSections = _context.Section.Where(x => x.ID.ToString() == currentUser);
+		//	string json = JsonConvert.SerializeObject(listSections);
+
+		//	return json;
+		//}
+
 		[HttpGet("users")]
         public string GetUsersBySection()
         {
-            var currentUser = _userManager.GetUserAsync(User);
-            string codeSection = currentUser.Result.SECTION_ID.ToString();
+			var currentUser = _userManager.GetUserAsync(User);
+			string codeSection = currentUser.Result.SECTION_ID.ToString();
 
-            var usersList = _userManager.Users.Where(b => b.SECTION_ID.ToString() == codeSection);
+			var usersList = _userManager.Users.Where(b => b.SECTION_ID.ToString() == codeSection);
             string json = JsonConvert.SerializeObject(usersList);
 
             return json;

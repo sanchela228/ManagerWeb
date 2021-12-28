@@ -98,6 +98,9 @@ var secrets = new Vue({
 			afterform: false,
 			passwordView: true,
 			sectionList: undefined,
+			sectionInfo: {
+				currentSection: undefined
+			},
 			hexColors: ["#e74131", "#c85cf5", "#5f75df", "#6cdf8f", "#a3df6c", "#c3c3c3"]
 		}
 	},
@@ -356,6 +359,11 @@ var secrets = new Vue({
 			thisVueObject.load = true;
 		});
 
+		//let sectionData = axios({ method: "get", url: "/api/APISection/group", responseType: "json" });
+		//sectionData.then(function (response) {
+		//	thisVueObject.sectionInfo.currentSection = response.data;
+		//});
+
 		let userscountData = axios({ method: "get", url: "/api/APISection/users", responseType: "json" });
 		userscountData.then(function (response) {
 			thisVueObject.countPersonalGroup = response.data.length;
@@ -365,7 +373,6 @@ var secrets = new Vue({
 		sectionlistData.then(function (response) {
 			thisVueObject.sectionList = response.data;
 		});
-
 
 	}
 });
