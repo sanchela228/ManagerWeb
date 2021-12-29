@@ -348,21 +348,14 @@ var secrets = new Vue({
 		let secretsData = axios({ method: "get", url: "/api/APISecrets", responseType: "json" });
 		secretsData.then(function (response)
 		{
-			Secrets = new Array;
-
-			for (var index = 0; index < response.data.length; index++)
-			{
-				Secrets = Secrets.concat(response.data[index]);
-			}
-
-			thisVueObject.arSecrets = Secrets;
+			thisVueObject.arSecrets = response.data;
 			thisVueObject.load = true;
 		});
 
-		//let sectionData = axios({ method: "get", url: "/api/APISection/group", responseType: "json" });
-		//sectionData.then(function (response) {
-		//	thisVueObject.sectionInfo.currentSection = response.data;
-		//});
+		let sectionData = axios({ method: "get", url: "/api/APISection/group", responseType: "json" });
+		sectionData.then(function (response) {
+			thisVueObject.sectionInfo.currentSection = response.data[0];
+		});
 
 		let userscountData = axios({ method: "get", url: "/api/APISection/users", responseType: "json" });
 		userscountData.then(function (response) {

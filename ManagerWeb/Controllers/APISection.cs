@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +19,7 @@ namespace ManagerWeb.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ManagerWebContext _context;
 
-		public APISection(ManagerWebContext context, UserManager<User> userManager, ClaimsPrincipal User)
+		public APISection(ManagerWebContext context, UserManager<User> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -49,17 +48,17 @@ namespace ManagerWeb.Controllers
 				).ToList();
 		}
 
-		//[HttpGet("group")]
-		//public string GetGroupName()
-		//{
-		//	var currentUser = _userManager.GetUserAsync(User);
-		//	string codeSection = currentUser.Result.SECTION_ID.ToString();
+		[HttpGet("group")]
+		public string GetGroupName()
+		{
+			var currentUser = _userManager.GetUserAsync(User);
+			string codeSection = currentUser.Result.SECTION_ID.ToString();
 
-		//	var listSections = _context.Section.Where(x => x.ID.ToString() == currentUser);
-		//	string json = JsonConvert.SerializeObject(listSections);
+			var listSections = _context.Section.Where(x => x.ID.ToString() == codeSection);
+			string json = JsonConvert.SerializeObject(listSections);
 
-		//	return json;
-		//}
+			return json;
+		}
 
 		[HttpGet("users")]
         public string GetUsersBySection()
@@ -72,5 +71,36 @@ namespace ManagerWeb.Controllers
 
             return json;
         }
-    }
+
+		[HttpGet("user")]
+		public string GetUserByID()
+		{
+			var currentUser = _userManager.GetUserAsync(User);
+			string json = JsonConvert.SerializeObject(currentUser.Result);
+
+			return json;
+		}
+
+		[HttpPut("{id}")]
+		public bool PutSection([FromRoute] string id, [FromBody] Section section)
+		{
+			if (id != section.ID.ToString())
+			{
+				return false;
+			}
+
+			_context.Entry(section).State = EntityState.Modified;
+
+			try
+			{
+				_context.SaveChanges();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				throw;
+			}
+
+			return true;
+		}
+	}
 }

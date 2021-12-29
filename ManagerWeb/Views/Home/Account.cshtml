@@ -6,12 +6,41 @@
 
 <link rel="stylesheet" href="~/css/Views/Home/account.css" />
 <script src="~/js/Views/Home/functions.js"></script>
-<script src="~/js/Views/Home/account.js"></script>
+
 
 <h2>@ViewData["Title"]</h2>
 
 <section class="account-view" v-if="load" id="account-page">
-	<div v-for="section in sections">
-		<p>{{section.NAME}}</p>
+	<div>
+		<div class="group-section">
+			<div class="title">
+				<p>Список групп</p>
+				<div v-if="user.EDIT_SECTION" class="add"><img src="~/images/icons/add.svg" /></div>
+			</div>
+			<div class="group-list" v-if="group.view == 'list'">
+				<div class="group" v-for="section in group.list" v-on:click="TakeGroup(section)">
+					<p>{{section.NAME}}</p>
+				</div>
+			</div>
+			<div class="group-detail" v-if="group.view == 'detail' && group.current != undefined">
+				<div v-on:click="BackToList()">Назад</div>
+				<div v-on:click="EditGroup()">Редактировать</div>
+				<div class="card">
+					<p>{{group.current.NAME}}</p>
+				</div>
+			</div>
+			<div v-if="group.view == 'edit'" class="group-card">
+				<p>{{group.current.NAME}}</p>
+				<form action="/" method="post" v-on:submit="SaveGroup">
+					<input type="text" v-model="group.current.NAME" />
+					<input type="submit" name="submit" value="отправить" />
+				</form>
+			</div>
+		</div>
 	</div>
+	
+	
+
 </section>
+
+<script src="~/js/Views/Home/account.js"></script>
