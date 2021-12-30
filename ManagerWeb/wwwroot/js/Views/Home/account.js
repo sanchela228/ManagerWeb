@@ -4,10 +4,16 @@ var vAccount = new Vue({
 	data: function () {
 		return {
 			load: false,
-			user: undefined,
+			user: {
+				view: "list",
+				current: undefined,
+				list: undefined
+			},
 			group: {
 				view: "list",
 				list: undefined,
+				selectFromList: undefined,
+				selectName: undefined,
 				current: undefined,
 				updateErr: {
 					status: false,
@@ -31,7 +37,6 @@ var vAccount = new Vue({
 		EditGroup: function ()
 		{
 			this.group.view = "edit";
-			console.log(this);
 		},
 		SaveGroup: function (e)
 		{
@@ -56,6 +61,23 @@ var vAccount = new Vue({
 				this.group.updateErr.status = true;
 				this.group.updateErr.text = "Неизвестная ошибка";
 			}
+		},
+		CreateGroup: function ()
+		{
+			if (this.group.view = "edit" && this.group.selectName != undefined)
+			{
+				let thisVue = this;
+				axios.post('/api/APISection',
+					{
+						NAME: thisVue.group.selectName,
+						PARENT_SECTION: thisVue.group.selectFromList
+					}
+				).then(function (response)
+				{
+					thisVue.group.list.push(response.data);
+					thisVue.group.view = "list";
+				});
+			}
 		}
 	},
 	created()
@@ -71,8 +93,15 @@ var vAccount = new Vue({
 
 		let userData = axios({ method: "get", url: "/api/APISection/user", responseType: "json" });
 		userData.then(function (response) {
-			thisVue.user = response.data;
+			thisVue.user.current = response.data;
+			thisVue.group.selectFromList = response.data.SECTION_ID;
 			thisVue.load = true;
+		});
+
+		let usersData = axios({ method: "get", url: "/api/APIUser", responseType: "json" });
+		usersData.then(function (response) {
+			thisVue.user.list = response.data;
+			
 		});
 
 

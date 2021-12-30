@@ -81,6 +81,18 @@ namespace ManagerWeb.Controllers
 			return json;
 		}
 
+		[HttpPost]
+		public string PostSection([FromBody] Section Section)
+		{
+			Section.ID = Guid.NewGuid();
+			Section.CREATOR_ID = new Guid(_userManager.GetUserId(User));
+
+			_context.Section.Add(Section);
+			_context.SaveChanges();
+
+			return JsonConvert.SerializeObject(Section);
+		}
+
 		[HttpPut("{id}")]
 		public bool PutSection([FromRoute] string id, [FromBody] Section section)
 		{

@@ -1,4 +1,19 @@
-﻿.group-section{
+﻿
+.account-view .list-settings{
+    display:flex;
+}
+.user-section {
+    margin-right: 20px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    width: fit-content;
+    min-width: 350px;
+    position: relative;
+    height: 100%;
+}
+.group-section {
     margin-right: 20px;
     background-color: white;
     padding: 15px;
@@ -8,11 +23,10 @@
     min-width: 350px;
     position: relative;
 }
-.group-section .title{
+.group-section .title, .user-section .title {
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
-
 }
 .title p {
     font-family: "Raleway";
@@ -22,7 +36,7 @@
     line-height: 150%;
     color: #000000;
 }
-.group-section .title .add {
+.title .add {
     width: 20px;
     cursor: pointer;
     height: 20px;

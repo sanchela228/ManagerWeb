@@ -11,11 +11,11 @@
 <h2>@ViewData["Title"]</h2>
 
 <section class="account-view" v-if="load" id="account-page">
-	<div>
+	<div class="list-settings">
 		<div class="group-section">
 			<div class="title">
 				<p>Список групп</p>
-				<div v-if="user.EDIT_SECTION" class="add"><img src="~/images/icons/add.svg" /></div>
+				<div v-if="user.EDIT_SECTION" v-on:click="group.view = 'create'" class="add"><img src="~/images/icons/add.svg" /></div>
 			</div>
 			<div class="group-list" v-if="group.view == 'list'">
 				<div class="group" v-for="section in group.list" v-on:click="TakeGroup(section)">
@@ -30,16 +30,43 @@
 				</div>
 			</div>
 			<div v-if="group.view == 'edit'" class="group-card">
-				<p>{{group.current.NAME}}</p>
+				<div v-on:click="group.view = 'detail'">
+					<img src="~/images/icons/delete-secret.svg" alt="pencil" />
+				</div>
 				<form action="/" method="post" v-on:submit="SaveGroup">
 					<input type="text" v-model="group.current.NAME" />
 					<input type="submit" name="submit" value="отправить" />
 				</form>
 			</div>
+			<div v-if="group.view == 'create'" class="group-card">
+				<div v-on:click="BackToList()">Назад</div>
+				<form action="/" method="post" v-on:submit="CreateGroup">
+					<select v-model="group.selectFromList">
+						<option :value="user.SECTION_ID">Текущая группа</option>
+						<option v-for="item in group.list"
+								:value="item.ID">
+							{{item.NAME}}
+						</option>
+						<input type="text" v-model="group.selectName" />
+						<input type="submit" value="Отправить" />
+					</select>
+				</form>
+			</div>
+		</div>
+		<div class="user-section">
+			<div class="title">
+				<p>Список пользователей</p>
+				<div v-if="user.EDIT_SECTION" class="add">
+					<img src="~/images/icons/add.svg" />
+				</div>
+			</div>
+			<div class="user-list" v-if="group.view == 'list'">
+				<div class="user" v-for="user in user.list" v-on:click="TakeGroup(section)">
+					<p>{{user.NAME}}</p>
+				</div>
+			</div>
 		</div>
 	</div>
-	
-	
 
 </section>
 
