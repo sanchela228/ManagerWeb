@@ -36,6 +36,18 @@ namespace ManagerWeb.Controllers
 			return JsonConvert.SerializeObject(usersList);
 		}
 
+		[HttpGet("response")]
+		public string GetUsersResponse()
+		{
+			var response = new Models.Responses.rUsers();
 
+			response.CurrentUser = _userManager.GetUserAsync(User).Result;
+
+			string codeSection = response.CurrentUser.SECTION_ID.ToString();
+			response.ListUsers = _userManager.Users.Where(b => b.SECTION_ID.ToString() == codeSection).ToList();
+			response.Count = response.ListUsers.Count();
+
+			return JsonConvert.SerializeObject(response);
+		}
 	}
 }

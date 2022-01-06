@@ -44,6 +44,7 @@ var secrets = new Vue({
 				PASSWORD: undefined,
 				COMMENT: undefined,
 				HEX_COLOR: undefined,
+				SECTION_ID: undefined
 			},
 			viewSecretsDetail: false, // show detail view
 			detailForm: {
@@ -92,6 +93,12 @@ var secrets = new Vue({
 						TYPE: "open",
 						FAILED: false,
 						TEXT: "Комментарий"
+					},
+					SECTION_ID: {
+						VALUE: null,
+						TYPE: "open",
+						FAILED: false,
+						TEXT: "Секция"
 					}
 				}
 			},
@@ -193,6 +200,7 @@ var secrets = new Vue({
 		ShowSecretDetail: function(typeAction, id = null)
 		{
 			this.passwordView = true;
+			this.detailForm.fields.SECTION_ID.VALUE = this.sectionInfo.currentSection.ID;
 
 			for (key in this.detailForm.fields)
 			{
@@ -222,6 +230,7 @@ var secrets = new Vue({
 				case "edit":
 					if (this.viewSecretsDetail == false) this.viewSecretsDetail = true;
 					this.detailForm.typeAction = typeAction;
+					this.detailForm.fields.SECTION_ID.VALUE = this.currentSecretsView.SECTION_ID;
 
 					for (key in this.currentSecretsView)
 					{
@@ -231,6 +240,7 @@ var secrets = new Vue({
 				break;
 
 				case "create":
+					this.detailForm.fields.SECTION_ID.VALUE = this.sectionInfo.currentSection.ID;
 					if (this.viewSecretsDetail == false) this.viewSecretsDetail = true;
 					this.detailForm.typeAction = typeAction;
 					this.currentSecretsView = undefined;
@@ -335,9 +345,6 @@ var secrets = new Vue({
 
 			document.body.removeChild(textArea);
 		},
-		test1: function (test) {
-			console.log(this);
-		}
 	},
 	created()
 	{
@@ -355,6 +362,7 @@ var secrets = new Vue({
 		let sectionData = axios({ method: "get", url: "/api/APISection/group", responseType: "json" });
 		sectionData.then(function (response) {
 			thisVueObject.sectionInfo.currentSection = response.data[0];
+			thisVueObject.detailForm.fields.SECTION_ID.VALUE = response.data[0].ID;
 		});
 
 		let userscountData = axios({ method: "get", url: "/api/APISection/users", responseType: "json" });

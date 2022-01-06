@@ -15,10 +15,13 @@
 		<div class="group-section">
 			<div class="title">
 				<p>Список групп</p>
-				<div v-if="user.EDIT_SECTION" v-on:click="group.view = 'create'" class="add"><img src="~/images/icons/add.svg" /></div>
+				<div v-if="user.settings.this.EDIT_SECTION" 
+					v-on:click="group.view = 'create'" class="add">
+					<img src="~/images/icons/add.svg" />
+				</div>
 			</div>
 			<div class="group-list" v-if="group.view == 'list'">
-				<div class="group" v-for="section in group.list" v-on:click="TakeGroup(section)">
+				<div class="group" v-for="section in group.list" v-on:click="Take(section, 'group')">
 					<p>{{section.NAME}}</p>
 				</div>
 			</div>
@@ -56,14 +59,45 @@
 		<div class="user-section">
 			<div class="title">
 				<p>Список пользователей</p>
-				<div v-if="user.EDIT_SECTION" class="add">
+				<div v-if="user.settings.this.EDIT_USER" 
+					v-on:click="user.view = 'create'" class="add">
 					<img src="~/images/icons/add.svg" />
 				</div>
 			</div>
-			<div class="user-list" v-if="group.view == 'list'">
-				<div class="user" v-for="user in user.list" v-on:click="TakeGroup(section)">
+			<div class="user-list" v-if="user.view == 'list'">
+				<div class="user" v-for="user in user.list" v-on:click="Take(user, 'user')">
 					<p>{{user.NAME}}</p>
 				</div>
+			</div>
+			<div class="group-detail" v-if="user.view == 'detail' && user.current != undefined">
+				<div v-on:click="BackToList()">Назад</div>
+				<div v-on:click="EditGroup()">Редактировать</div>
+				<div class="card">
+					<p>{{user.current.NAME}}</p>
+				</div>
+			</div>
+			<div v-if="user.view == 'edit'" class="group-card">
+				<div v-on:click="user.view = 'detail'">
+					<img src="~/images/icons/delete-secret.svg" alt="pencil" />
+				</div>
+				<form action="/" method="post" v-on:submit="SaveGroup">
+					<input type="text" v-model="user.current.NAME" />
+					<input type="submit" name="submit" value="отправить" />
+				</form>
+			</div>
+			<div v-if="user.view == 'create'" class="group-card">
+				<div v-on:click="BackToList()">Назад</div>
+				<form action="/" method="post" v-on:submit="CreateGroup">
+					<select v-model="user.selectFromList">
+						<option :value="user.SECTION_ID">Текущая группа</option>
+						<option v-for="item in user.list"
+								:value="item.ID">
+							{{item.NAME}}
+						</option>
+						<input type="text" v-model="user.selectName" />
+						<input type="submit" value="Отправить" />
+					</select>
+				</form>
 			</div>
 		</div>
 	</div>

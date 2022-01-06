@@ -43,6 +43,8 @@ namespace ManagerWeb.Controllers
 				listSecrets.AddRange(_context.Secrets.Where(b => b.SECTION_ID == section.ID));
 			}
 
+			listSecrets.Reverse();
+
 			string jsonSections = JsonConvert.SerializeObject(listSecrets);
 			return jsonSections;
 		}
@@ -62,11 +64,6 @@ namespace ManagerWeb.Controllers
 		{
             Secret.GUID = Guid.NewGuid();
             Secret.CREATOR_ID = new Guid(_userManager.GetUserId(User));
-
-			var currentUser = _userManager.GetUserAsync(User);
-			string codeSection = currentUser.Result.SECTION_ID.ToString();
-
-			Secret.SECTION_ID = new Guid(codeSection);
 
 			_context.Secrets.Add(Secret);
 			_context.SaveChanges();

@@ -39,6 +39,20 @@ namespace ManagerWeb.Controllers
 			return json;
 		}
 
+		[HttpGet("response")]
+		public string GetSectionsResponse()
+		{
+			var response = new Models.Responses.rSection();
+			string codeSection = _userManager.GetUserAsync(User).Result.SECTION_ID.ToString();
+
+			List<Section> listSections = _context.Section.ToList();
+
+			response.CurrentSection = _context.Section.Where(b => b.ID.ToString() == codeSection).FirstOrDefault();
+			response.ListSection = GetChildren(listSections, codeSection);
+
+			return JsonConvert.SerializeObject(response);
+		}
+
 		List<Section> GetChildren(List<Section> listSections, string id)
 		{
 			return listSections

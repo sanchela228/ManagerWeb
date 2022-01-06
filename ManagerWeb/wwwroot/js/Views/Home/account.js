@@ -7,14 +7,19 @@ var vAccount = new Vue({
 			user: {
 				view: "list",
 				current: undefined,
-				list: undefined
-			},
-			group: {
-				view: "list",
 				list: undefined,
 				selectFromList: undefined,
 				selectName: undefined,
+				settings: {
+					this: undefined
+				}
+			},
+			group: {
+				view: "list",
 				current: undefined,
+				list: undefined,
+				selectFromList: undefined,
+				selectName: undefined,
 				updateErr: {
 					status: false,
 					text: "Пустое имя"
@@ -24,10 +29,19 @@ var vAccount = new Vue({
 	},
 	methods:
 	{
-		TakeGroup: function (group)
+		Take: function (object, type)
 		{
-			this.group.view = "detail";
-			this.group.current = group;
+			switch (type)
+			{
+				case "group":
+					this.group.view = "detail";
+					this.group.current = object;
+				break
+				case "user":
+					this.user.view = "detail";
+					this.user.current = object;
+				break
+			}
 		},
 		BackToList: function ()
 		{
@@ -85,26 +99,21 @@ var vAccount = new Vue({
 		console.log("on create vue");
 		let thisVue = this;
 
-		let sectionsData = axios({ method: "get", url: "/api/APISection", responseType: "json" });
+		let sectionsData = axios({ method: "get", url: "/api/APISection/response", responseType: "json" });
 		sectionsData.then(function (response) {
-			thisVue.group.list = response.data;
+			thisVue.group.list = response.data.ListSection;
+			thisVue.group.selectFromList = response.data.CurrentSection.ID;
+
 			
 		});
 
-		let userData = axios({ method: "get", url: "/api/APISection/user", responseType: "json" });
-		userData.then(function (response) {
-			thisVue.user.current = response.data;
-			thisVue.group.selectFromList = response.data.SECTION_ID;
+		let usersData = axios({ method: "get", url: "/api/APIUser/response", responseType: "json" });
+		usersData.then(function (response) {
+			thisVue.user.list = response.data.ListUsers;
+			thisVue.user.settings.this = response.data.CurrentUser;
+
 			thisVue.load = true;
 		});
-
-		let usersData = axios({ method: "get", url: "/api/APIUser", responseType: "json" });
-		usersData.then(function (response) {
-			thisVue.user.list = response.data;
-			
-		});
-
-
 
 	}
 })
