@@ -20,7 +20,7 @@
     border-radius: 8px;
     box-sizing: border-box;
     width: fit-content;
-    min-width: 350px;
+    width: 350px;
     position: relative;
 }
 .group-section .title, .user-section .title {
@@ -44,4 +44,102 @@
     background-color: #e7e5e5;
     padding: 5px;
     border-radius: 4px;
+}
+.group-list .group{
+    padding: 7px 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.group-list .group:hover {
+    background: #e7e5e5;
+}
+.group-list .group p {
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Raleway";
+    margin: auto 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 245px;
+}
+.group-detail .line {
+    display: inline-block;
+}
+.group-detail .line.cancel, .group-card .line.cancel {
+    margin-top: 10px;
+    font-family: "Raleway";
+}
+
+.group-detail .line.edit {
+    font-family: "Raleway";
+    float: right;
+    height: fit-content;
+    margin: auto 0;
+    border: 1px solid #5b5b5b;
+    border-radius: 20px;
+    padding: 8px 12px;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.group-detail .line.edit:hover {
+    background-color: #ffe18c;
+    border: 1px solid #ffe18c;
+}
+.group-detail .card{
+    margin-top: 20px;
+}
+.group-detail .card {
+    font-family: "Raleway";
+    font-size: 24px;
+
+}
+.group-card .close {
+    width: 30px;
+    height: 30px;
+    margin-left: auto;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.group-card input[type="text"] {
+    width: 100%;
+    margin-top: 10px;
+    padding: 4px;
+    font-family: "Raleway";
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    border: 1px solid #dadada;
+    border-radius: 4px;
+    font-size: 16px;
+}
+.group-card input[type="submit"] {
+    width: 100%;
+    padding: 5px;
+    font-family: "Raleway";
+    font-size: 16px;
+    border: 1px solid #dadada;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #dadada;
+    transition: 0.3s;
+}
+.group-card input[type="submit"]:hover {
+    border: 1px solid white;
+    background-color: #ffe18c;
+}
+.group-card select {
+    width: 100%;
+    padding: 4px;
+    margin-top: 20px;
+}
+
+
+.group-card .delete {
+    text-align: center;
+    margin-top: 20px;
+    font-family: "Raleway";
+    color: #d86060;
+    cursor: pointer;
 }

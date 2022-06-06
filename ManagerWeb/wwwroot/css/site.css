@@ -80,6 +80,13 @@ footer {
     right: 0;
     bottom: 0;
     z-index: -1;
+    width: 115px;
+    height: 120px;
+}
+
+#shreks-image img {
+    width: 100%;
+    height: 100%;
 }
 section.container {
     max-width: 1040px;
@@ -207,4 +214,10 @@ section.container {
     background-color: transparent;
     color: #242424;
 }
-
+.build-text-top {
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Raleway";
+    color: black;
+    opacity: 0.6;
+}

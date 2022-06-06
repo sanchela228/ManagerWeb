@@ -10,6 +10,8 @@ var vAccount = new Vue({
 				list: undefined,
 				selectFromList: undefined,
 				selectName: undefined,
+				email: undefined,
+				password: undefined,
 				settings: {
 					this: undefined
 				}
@@ -29,6 +31,29 @@ var vAccount = new Vue({
 	},
 	methods:
 	{
+		Delete: function (el, type)
+		{
+			if (type == "group")
+			{
+				axios.delete('/api/APISection/' + el.ID);
+
+				let thisVue = this;
+
+				let sectionsData = axios({ method: "get", url: "/api/APISection/response", responseType: "json" });
+				sectionsData.then(function (response) {
+					thisVue.group.list = response.data.ListSection;
+					thisVue.group.selectFromList = response.data.CurrentSection.ID;
+				});
+
+				this.group.view = "list";
+			}
+
+			if (type == "user")
+			{
+
+            }
+			
+		},
 		Take: function (object, type)
 		{
 			switch (type)
@@ -43,14 +68,14 @@ var vAccount = new Vue({
 				break
 			}
 		},
-		BackToList: function ()
+		BackToList: function (el)
 		{
-			this.group.view = "list";
-			this.group.current = undefined;
+			el.view = "list";
+			el.current = undefined;
 		},
-		EditGroup: function ()
+		EditGroup: function (el)
 		{
-			this.group.view = "edit";
+			el.view = "edit";
 		},
 		SaveGroup: function (e)
 		{
@@ -92,6 +117,35 @@ var vAccount = new Vue({
 					thisVue.group.view = "list";
 				});
 			}
+		},
+
+		CreateUser: function (event)
+		{
+			let thisVue = this;
+			axios.post('/api/APIUser',
+				{
+					Password: this.user.password,
+					ModelUser: {
+						NAME: this.user.selectName,
+						Email: this.user.email,
+						userName: this.user.email,
+						SECTION_ID: this.user.selectFromList,
+						EDIT_USER: true,
+						EDIT_SECTION: true,
+					}
+				}
+			).then(function (response)
+			{
+				let usersData = axios({ method: "get", url: "/api/APIUser/response", responseType: "json" });
+				usersData.then(function (response) {
+					thisVue.user.list = response.data.ListUsers;
+					thisVue.user.settings.this = response.data.CurrentUser;
+					thisVue.user.view = "list";
+					thisVue.load = true;
+				});
+			});
+
+			event.preventDefault();
 		}
 	},
 	created()

@@ -107,6 +107,22 @@ namespace ManagerWeb.Controllers
 			return JsonConvert.SerializeObject(Section);
 		}
 
+		[HttpDelete("{id}")]
+		public string DeleteSection([FromRoute] Guid id)
+		{
+			var section = _context.Section.Find(id);
+
+			if (section == null)
+			{
+				return "not found";
+			}
+
+			_context.Section.Remove(section);
+			_context.SaveChanges();
+
+			return "delete ok";
+		}
+
 		[HttpPut("{id}")]
 		public bool PutSection([FromRoute] string id, [FromBody] Section section)
 		{

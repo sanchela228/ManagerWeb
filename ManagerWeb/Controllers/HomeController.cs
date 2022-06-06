@@ -45,16 +45,16 @@ namespace ManagerWeb.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Index([Bind("Email")] User user, string Password)
 		{
-			var result = await _signInManager.PasswordSignInAsync(user.Email, Password, true, false);
-			if (result.Succeeded)
-			{
-				return LocalRedirect("~/Secrets/");
-			}
-			else
-			{
-				return Index();
-			}
-		}
+            var result = await _signInManager.PasswordSignInAsync(user.Email, Password, true, false);
+            if (result.Succeeded)
+            {
+                return LocalRedirect("~/Secrets/");
+            }
+            else
+            {
+                return Index();
+            }
+        }
 
 		[HttpPost]
 		public async Task<IActionResult> Logout()
