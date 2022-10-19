@@ -12,7 +12,7 @@
 
 <section class="account-view" v-if="load" id="account-page">
 	<div class="list-settings">
-		<div class="group-section">
+		<div class="group-section" v-if="user.settings.this.EDIT_SECTION">
 			<div class="title">
 				<p>Список групп</p>
 				<div v-if="user.settings.this.EDIT_SECTION" 
@@ -57,7 +57,7 @@
 				</form>
 			</div>
 		</div>
-		<div class="group-section">
+		<div class="group-section" v-if="user.settings.this.EDIT_USER">
 			<div class="title">
 				<p>Список пользователей</p>
 				<div v-if="user.settings.this.EDIT_USER" 
@@ -90,6 +90,7 @@
 			<div v-if="user.view == 'create'" class="group-card">
 				<div class="line cancel" v-on:click="BackToList(user)">Назад</div>
 				<form action="/" method="post" v-on:submit="CreateUser">
+					<p>Группа к которой относится пользователь</p>
 					<select v-model="user.selectFromList">
 						<option :value="user.settings.this.SECTION_ID">Текущая группа</option>
 						<option v-for="item in group.list"
@@ -97,9 +98,16 @@
 							{{item.NAME}}
 						</option>
 					</select>
+					<p>Имя пользователя</p>
 					<input type="text" v-model="user.selectName" />
+					<p>Email</p>
 					<input type="text" v-model="user.email" />
+					<p>Пароль</p>
 					<input type="text" v-model="user.password" />
+					<p>Учавствует в создании групп</p>
+					<input type="checkbox" v-model="user.canCreateGroup" />
+					<p>Учавствует в создании пользователей</p>
+					<input type="checkbox" v-model="user.canCreateUsers" />
 					<input type="submit" value="Отправить" />
 				</form>
 			</div>

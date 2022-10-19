@@ -12,6 +12,8 @@ var vAccount = new Vue({
 				selectName: undefined,
 				email: undefined,
 				password: undefined,
+				canCreateGroup: false,
+				canCreateUsers: false,
 				settings: {
 					this: undefined
 				}
@@ -167,6 +169,9 @@ var vAccount = new Vue({
 			thisVue.user.settings.this = response.data.CurrentUser;
 
 			thisVue.load = true;
+
+
+			console.log(thisVue.user);
 		});
 
 	}
