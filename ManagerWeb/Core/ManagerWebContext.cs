@@ -13,7 +13,7 @@ namespace ManagerWeb.Core
 		public ManagerWebContext(DbContextOptions<ManagerWebContext> options)
 		   : base(options)
 		{
-			//Database.EnsureCreated();
+			Database.EnsureCreated();
 		}
 
 		public DbSet<Secrets> Secrets { get; set; }
