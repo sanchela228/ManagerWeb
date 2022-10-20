@@ -46,7 +46,7 @@
 				<div class="line cancel" v-on:click="BackToList(group)">Назад</div>
 				<form action="/" method="post" v-on:submit="CreateGroup">
 					<select v-model="group.selectFromList">
-						<option :value="user.SECTION_ID">Текущая группа</option>
+						<option :value="user.settings.this.SECTION_ID">Текущая группа</option>
 						<option v-for="item in group.list"
 								:value="item.ID">
 							{{item.NAME}}
